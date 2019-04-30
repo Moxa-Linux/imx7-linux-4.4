@@ -174,6 +174,7 @@ enum tpm_chip_flags {
 };
 
 struct tpm_chip {
+	struct device *pdev;
 	struct device dev;
 	struct cdev cdev;
 
