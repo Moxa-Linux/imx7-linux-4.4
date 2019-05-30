@@ -1,0 +1,6 @@
+imx7-linux-4.4 (4.4.176+1.0.0) stretch; urgency=medium
+
+  * feat: add i.MX7 kernel packages
+  * Import CIP Linux kernel 4.4.176
+
+ -- Wes Huang <Wes.Huang@moxa.com>  Thu, 23 May 2019 20:34:20 +0800
