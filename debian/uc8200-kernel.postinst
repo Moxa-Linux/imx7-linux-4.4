@@ -6,16 +6,11 @@ case "$1" in
 configure)
 	ITB_NAME="imx7d-moxa-uc-8200.itb"
 	OVERLAY_BASE="/overlayfs/base"
-	P1_TMP="/var/tmp/p1"
-
-	if [ -f ${P1_TMP}/itb/${ITB_NAME} ]; then
-		mv ${P1_TMP}/itb/${ITB_NAME} ${P1_TMP}/${ITB_NAME}
-		rmdir ${P1_TMP}/itb/
-	fi
+	BOOT_FOLDER="/boot"
 
 	if [ ! -d ${OVERLAY_BASE} ]; then
 		mkdir -p ${OVERLAY_BASE}
-		cp ${P1_TMP}/${ITB_NAME} ${OVERLAY_BASE}/
+		cp ${BOOT_FOLDER}/${ITB_NAME} ${OVERLAY_BASE}/
 	fi
 
 	# Check if the environment is physical target machine.
@@ -29,7 +24,6 @@ configure)
 		fi
 		depmod "${KERNEL_SYMBOL_NAME}"
 		sync
-		rm -rf ${P1_TMP}
 	fi
 	echo "*** kernel successfully updated. ***"
 	echo "*** Please reboot the system... ***"
