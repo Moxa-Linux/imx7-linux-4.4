@@ -1,3 +1,11 @@
+imx7-linux-4.4 (4.4.176+1.0.1) stretch; urgency=medium
+
+  * defconfig: imx7d_defconfig: adjust printk setting
+  * net: ath10k: fix poor tx performance in QCA6174 series
+  * fix: set /boot as uc8200-kernel package install folder
+
+ -- Wes Huang <Wes.Huang@moxa.com>  Mon, 10 Jun 2019 11:58:02 +0800
+
 imx7-linux-4.4 (4.4.176+1.0.0) stretch; urgency=medium
 
   * feat: add i.MX7 kernel packages
