@@ -1,3 +1,9 @@
+imx7-linux-4.4 (4.4.176+1.0.2) stretch; urgency=medium
+
+  * qmi_wwan.c: Support YUGA NC5
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Tue, 11 Jun 2019 13:04:51 +0800
+
 imx7-linux-4.4 (4.4.176+1.0.1) stretch; urgency=medium
 
   * defconfig: imx7d_defconfig: adjust printk setting
