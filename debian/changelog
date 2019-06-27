@@ -1,3 +1,9 @@
+imx7-linux-4.4 (4.4.176+1.0.3) stretch; urgency=medium
+
+  * add raw ip feature
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Thu, 27 Jun 2019 09:34:55 +0800
+
 imx7-linux-4.4 (4.4.176+1.0.2) stretch; urgency=medium
 
   * qmi_wwan.c: Support YUGA NC5
