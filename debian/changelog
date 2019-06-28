@@ -1,3 +1,10 @@
+imx7-linux-4.4 (4.4.176+1.0.4) stretch; urgency=medium
+
+  * fix: remove blank line
+  * doc: add README.md
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Fri, 28 Jun 2019 14:53:17 +0800
+
 imx7-linux-4.4 (4.4.176+1.0.3) stretch; urgency=medium
 
   * add raw ip feature
