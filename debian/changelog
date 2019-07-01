@@ -1,0 +1,33 @@
+imx7-linux-4.4 (4.4.176+1.0.4) stretch; urgency=medium
+
+  * fix: remove blank line
+  * doc: add README.md
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Fri, 28 Jun 2019 14:53:17 +0800
+
+imx7-linux-4.4 (4.4.176+1.0.3) stretch; urgency=medium
+
+  * add raw ip feature
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Thu, 27 Jun 2019 09:34:55 +0800
+
+imx7-linux-4.4 (4.4.176+1.0.2) stretch; urgency=medium
+
+  * qmi_wwan.c: Support YUGA NC5
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Tue, 11 Jun 2019 13:04:51 +0800
+
+imx7-linux-4.4 (4.4.176+1.0.1) stretch; urgency=medium
+
+  * defconfig: imx7d_defconfig: adjust printk setting
+  * net: ath10k: fix poor tx performance in QCA6174 series
+  * fix: set /boot as uc8200-kernel package install folder
+
+ -- Wes Huang <Wes.Huang@moxa.com>  Mon, 10 Jun 2019 11:58:02 +0800
+
+imx7-linux-4.4 (4.4.176+1.0.0) stretch; urgency=medium
+
+  * feat: add i.MX7 kernel packages
+  * Import CIP Linux kernel 4.4.176
+
+ -- Wes Huang <Wes.Huang@moxa.com>  Thu, 23 May 2019 20:34:20 +0800
