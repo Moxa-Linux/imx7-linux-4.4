@@ -1,3 +1,10 @@
+imx7-linux-4.4 (4.4.176+1.0.5) stretch; urgency=medium
+
+  * defconfig: enable MOXA nport driver for uc8200
+  * Add Moxa NPort Real TTY driver
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Thu, 04 Jul 2019 18:40:59 +0800
+
 imx7-linux-4.4 (4.4.176+1.0.4) stretch; urgency=medium
 
   * fix: remove blank line
