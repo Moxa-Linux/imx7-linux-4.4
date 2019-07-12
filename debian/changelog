@@ -1,3 +1,9 @@
+imx7-linux-4.4 (4.4.176+1.0.6) stretch; urgency=medium
+
+  * fix: debian/rules: add missing file kernel_release.h
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Fri, 12 Jul 2019 19:46:16 +0800
+
 imx7-linux-4.4 (4.4.176+1.0.5) stretch; urgency=medium
 
   * defconfig: enable MOXA nport driver for uc8200
