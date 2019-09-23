@@ -1,3 +1,9 @@
+imx7-linux-4.4 (4.4.176+1.0.7) stretch; urgency=medium
+
+  * fix-mmc-retune-error
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Mon, 23 Sep 2019 18:48:09 +0800
+
 imx7-linux-4.4 (4.4.176+1.0.6) stretch; urgency=medium
 
   * fix: debian/rules: add missing file kernel_release.h
