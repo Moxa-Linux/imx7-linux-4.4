@@ -1,3 +1,11 @@
+imx7-linux-4.4 (4.4.176+1.0.8) stretch; urgency=medium
+
+  * defconfig: imx7d_defconfig: add pci=nomsi to cmdline
+  * fdt: fix extend of cmd line
+  * Support wifi module JWX6058 on chip QCA6174A
+
+ -- Fero JD Zhou <FeroJD.Zhou@moxa.com>  Wed, 06 Nov 2019 17:49:33 +0800
+
 imx7-linux-4.4 (4.4.176+1.0.7) stretch; urgency=medium
 
   * fix-mmc-retune-error
