@@ -1,3 +1,5 @@
+#ifndef TPM_H
+#define TPM_H
 /*
  * Copyright (C) 2004 IBM Corporation
  * Copyright (C) 2015 Intel Corporation
@@ -172,6 +174,7 @@ enum tpm_chip_flags {
 };
 
 struct tpm_chip {
+	struct device *pdev;
 	struct device dev;
 	struct cdev cdev;
 
@@ -556,3 +559,4 @@ extern unsigned long tpm2_calc_ordinal_duration(struct tpm_chip *, u32);
 extern int tpm2_do_selftest(struct tpm_chip *chip);
 extern int tpm2_gen_interrupt(struct tpm_chip *chip);
 extern int tpm2_probe(struct tpm_chip *chip);
+#endif
