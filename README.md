@@ -1,142 +1,66 @@
 # Moxa Kernel Repository Guidelines
 
-## Table Of Contents
-* Getting Started
-* How to update kernel
-* Products List
-* Appendix
+The following material guides user how to build out kernel image and put the result into the moxa device.
+
+* [How to build the kernel package](#how-to-build-the-kernel-package)
+* [How to update kernel on the device](#how-to-update-kernel-on-the-device)
+* [Products List](#products-list)
+* [Appendix](#appendix)
 
 ---
-## Getting Started
+## How to build the kernel package
 
 >>>
-We suggest to run under Debian distribution.
-
-Following example is performed on Stretch
+Following example is performed on Stretch.
 >>>
 
-### Install required packages
+### Prepare Docker Image
+[https://github.com/Moxa-Linux/moxa-dockerfiles](https://github.com/Moxa-Linux/moxa-dockerfiles)
+
+### Create a container
+
 ```
-apt-get update
-apt-get install crossbuild-essential-armhf bc liblz4-tool
+# docker run -d -v /tmp/kernel:/tmp/kernel -it moxa_docker:v1 bash
 ```
 
-### Check out the kernel source:
+* The docker image `moxa_docker:v1` is created in [Prepare Docker Image](#prepare-docker-image).
+* `/tmp/kernel/` is a volume used for the access to the kernel source in the docker container.
 
-#### If you want to build the latest imx7-linux-4.4 kernel source code. Please make sure you are at develop branch.
-```
-# git branch -a
-```
+### Build the kernel package
+Enter the container and navigate to `/tmp/kernel/imx7-linux-4.4/` and execute
 
-#### If you want to build the specific version of imx7-linux-4.4 kernel source code. Please checkout the kernel source using tag.
-
-##### To show all the tags.
 ```
-# git tag
+# docker start -ia <docker_container_id>
+# cd /tmp/kernel
+# dpkg-buildpackage -us -uc -b -aarmhf
 ```
 
-##### Checkout kernel source by using tag:
-```
-# git checkout <product>_V<version>
-```
-### Steps to compile the kernel:
-
-The detail model support list, default kernel configuration, dts file, its file and kernel type information can be found at "Product List" below.
-
-
-#### 1. Set default config.
-Example:
-```
-# make imx7d_defconfig ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
-```
-
-#### 2. Compile kernel and create zImage file.
-Example:
-```
-# make -j16 ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
-```
-
-Our kernel source code will build dtb file automatically. If you want to re-build dtb file by your self.
-Example:
-```
-# make imx7d-moxa-uc-8210.dtb ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
-```
-
-#### 4. Strip and install kernel modules:
-Example:
-```
-# make INSTALL_MOD_STRIP=1 modules_install INSTALL_MOD_PATH=/tmp ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
-```
-
-#### 5. Create uImage file or build itb file.
-
-To build itb file, please make sure all the <product> dtb and zImage are exist. (For itb kernel type product.)
-Example:
-```
-# ./its/imx7d-moxa-uc-8200
-```
+* `<docker_container_id>` comes from the command `docker run`
+* The result should be under `/tmp/kernel/imx7-linux-4.4/../`
 
 ---
-## How to update kernel
-### Steps to update kernel
+## How to update kernel on the device
 
-#### 1. Upload all your compiled results to the device
+### 1. Upload kernel packages to the device
 ```
-# scp -r <Username of device system>@<IP address of device>:<File path>
+# scp <files> <Username of device system>@<IP address of device>:<File path>
 ```
-
-To upload kernel modules:
-Example:
-```
-# scp -r /tmp/lib/modules/4.4.0-cip-rt-moxa-imx7d/kernel/ moxa@192.168.3.100:/tmp
-# scp /tmp/lib/modules/4.4.0-cip-rt-moxa-imx7d/modules.* moxa@192.168.3.100:/tmp
-```
-
-To upload itb files:
-```
-# scp its/imx7d-moxa-uc-8200.itb moxa@192.168.3.100:/tmp
-```
-
-#### 2. Replace the kernel modules on the device with new files
-
-Backup the original kernel modules and update kernel modules with new files
 
 Example:
 ```
-# mv /lib/modules/4.4.0-cip-rt-moxa-imx7d/ /lib/modules/4.4.0-cip-rt-moxa-imx7d/
-# mkdir -p /lib/modules/4.4.0-cip-rt-moxa-imx7d/
-# cp -arf /tmp/kernel/ /lib/modules/4.4.0-cip-rt-moxa-imx7d/
-# cp -arf /tmp/modules.* /lib/modules/4.4.0-cip-rt-moxa-imx7d/
+# scp uc8200-kernel*.deb uc8200-modules*.deb moxa@192.168.3.100:/tmp
+```
+
+### 2. Install the packages
+
+Example:
+```
+# cd /tmp
+# dpkg -i *.deb
 # sync
 ```
 
-#### 3. Replace the kernel file on the device with new file
-
-The kernel file is placed in operation system storage partition 1.
-The storage device name can be checked by `lsblk` command:
-
-![lsblk](https://github.com/Moxa-Linux/resize-image/blob/develop/lsblk.PNG?raw=true)
-
-In this example, root is mounted at "/dev/mmcblk0p2", so the system storage device is "/dev/mmcblk0". Partition 1 is "/dev/mmcblk0p1".
-
-To mount operation system storage partition 1
-
-Example:
-```
-# mount /dev/mmcblk0p1 /mnt
-# cd /mnt
-```
-
-Backup the original kernel file and update it with new file
-
-Example:
-```
-# mv imx7d-moxa-uc-8200.itb imx7d-moxa-uc-8200.itb_bak
-# cp /tmp/imx7d-moxa-uc-8200.itb .
-# sync
-```
-
-#### 3. Reboot the device
+### 3. Reboot the device
 ```
 # reboot
 ```
