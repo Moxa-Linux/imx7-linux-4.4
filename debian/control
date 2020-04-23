@@ -3,13 +3,11 @@ Section: kernel
 Priority: optional
 Maintainer: Fero JD Zhou <FeroJD.Zhou@moxa.com>
 Standards-Version: 4.1.2
-Build-Depends: debhelper (>= 10),
-               libc6-dev,
-               cpio,
-               liblz4-tool,
-               u-boot-tools,
+Build-Depends:
                kmod,
-               bc
+               cpio,
+               bc,
+               liblz4-tool
 Homepage: https://www.moxa.com/
 Vcs-Git: http://gitlab.syssw.moxa.com/MXcore-Kernel/imx7-linux-4.4
 
