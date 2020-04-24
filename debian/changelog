@@ -1,3 +1,9 @@
+imx7-linux-4.4 (4.4.176+1.0.9) stretch; urgency=medium
+
+  * fix: imx7d_defcong: support docker exec command
+
+ -- Remus Wu <remusty.wu@moxa.com>  Thu, 23 Apr 2020 16:44:55 +0800
+
 imx7-linux-4.4 (4.4.176+1.0.8) stretch; urgency=medium
 
   * defconfig: imx7d_defconfig: add pci=nomsi to cmdline

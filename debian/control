@@ -2,14 +2,13 @@ Source: imx7-linux-4.4
 Section: kernel
 Priority: optional
 Maintainer: Fero JD Zhou <FeroJD.Zhou@moxa.com>
+Uploaders: Remus Wu <remusty.wu@moxa.com>
 Standards-Version: 4.1.2
-Build-Depends: debhelper (>= 10),
-               libc6-dev,
-               cpio,
-               liblz4-tool,
-               u-boot-tools,
+Build-Depends:
                kmod,
-               bc
+               cpio,
+               bc,
+               liblz4-tool
 Homepage: https://www.moxa.com/
 Vcs-Git: http://gitlab.syssw.moxa.com/MXcore-Kernel/imx7-linux-4.4
 
@@ -38,7 +37,7 @@ Depends: ${misc:Depends},
          uc8200-modules (= ${binary:Version})
 Description: i.MX7 Flattened Image
  Flattened image includes Linux kernel image and device trees.
- Device tree describesthe hardware components on the device including
+ Device tree describes the hardware components on the device including
  its layout. This package contains device trees for all models of Moxa
  UC-8200 devices.
 
