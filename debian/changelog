@@ -1,3 +1,10 @@
+imx7-linux-4.4 (4.4.176+1.0.10) stretch; urgency=medium
+
+  * fix: imx7d_defconfig: adjust kernel/user memory to 1G/3G
+  * debian: update build dependence
+
+ -- Remus Wu <remusty.wu@moxa.com>  Wed, 13 May 2020 14:24:48 +0800
+
 imx7-linux-4.4 (4.4.176+1.0.9) stretch; urgency=medium
 
   * fix: imx7d_defcong: support docker exec command
