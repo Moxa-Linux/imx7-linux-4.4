@@ -4,11 +4,9 @@ Priority: optional
 Maintainer: Fero JD Zhou <FeroJD.Zhou@moxa.com>
 Uploaders: Remus Wu <remusty.wu@moxa.com>
 Standards-Version: 4.1.2
-Build-Depends:
-               kmod,
-               cpio,
-               bc,
-               liblz4-tool
+Build-Depends: debhelper (>= 10),
+               initramfs-tools,
+               kmod
 Homepage: https://www.moxa.com/
 Vcs-Git: http://gitlab.syssw.moxa.com/MXcore-Kernel/imx7-linux-4.4
 
