@@ -1,3 +1,19 @@
+imx7-linux-4.4 (4.4.176+1.0.11) stretch; urgency=medium
+
+  * ARM: dts: imx7d: add clock-frequency to CPU nodes
+  * ARM: dts: imx7d: remove snvs_poweroff node
+  * dmaengine: imx-sdma: Add i.MX7 support
+  * ARM: dts: imx7d: Add SDMA node
+  * ARM: dts: fix imx7d boot spi dma setup error
+  * MLK-14325-2 PCI: imx: enable pcie on 4.9 kernel
+  * PCI: imx6: Add DT property for link gen, default to Gen1
+  * fix: partial sync up to source
+  * fix: dts: remove wlreg_on from UC-8210
+  * fix: dts: imx7d-moxa-uc-8220: remove property fsl,max-link-speed
+  * fix: dts: imx7d-moxa-uc-8220: add power and reset gpio for pcie
+
+ -- Remus Wu <remusty.wu@moxa.com>  Fri, 22 May 2020 02:12:27 +0800
+
 imx7-linux-4.4 (4.4.176+1.0.10) stretch; urgency=medium
 
   * fix: imx7d_defconfig: adjust kernel/user memory to 1G/3G
