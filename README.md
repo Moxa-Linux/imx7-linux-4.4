@@ -1,85 +1,73 @@
-# Moxa Kernel Repository Guidelines
+# Building Moxa Linux Kernel imx7-linux-4.4 project
 
-The following material guides user how to build out kernel image and put the result into the moxa device.
+Below you will find instructions to build and install the imx7-linux-4.4 project.
 
-* [How to build the kernel package](#how-to-build-the-kernel-package)
-* [How to update kernel on the device](#how-to-update-kernel-on-the-device)
-* [Products List](#products-list)
-* [Appendix](#appendix)
+## Build Instructions Table
 
----
-## How to build the kernel package
+| Branch / Tags | Build Instructions |
+| - | - |
+| UC-8200_V1.0, UC-8200_V1.1, UC8200_V1.2 <br> 4.4.176-cip31-rt23/stretch/master | Below Instructions (`Latest`) |
 
->>>
-Following example is performed on Stretch.
->>>
+## Download source
 
-### Prepare Docker Image
-[https://github.com/Moxa-Linux/moxa-dockerfiles](https://github.com/Moxa-Linux/moxa-dockerfiles)
-
-### Create a container
+To obtain the imx7-linux-4.4 sources you must clone them as below:
 
 ```
-# docker run -d -v /tmp/kernel:/tmp/kernel -it moxa_docker:v1 bash
+git clone https://github.com/Moxa-Linux/imx7-linux-4.4
 ```
 
-* The docker image `moxa_docker:v1` is created in [Prepare Docker Image](#prepare-docker-image).
-* `/tmp/kernel/` is a volume used for the access to the kernel source in the docker container.
+## Dependencies
 
-### Build the kernel package
-Enter the container and navigate to `/tmp/kernel/imx7-linux-4.4/` and execute
+To build imx7-linux-4.4, we provide [moxa-dockerfiles](https://github.com/Moxa-Linux/moxa-dockerfiles) to create build environment.
+
+## Building
+
+### Create docker container
+
+To create a docker container execute the following commands from the directory which source in:
 
 ```
-# docker start -ia <docker_container_id>
-# cd /tmp/kernel
+# sudo docker run -d -it -v ${PWD}:/workspace moxa-package-builder:1.0.0 bash
+d103e6df5f719f9430056f9c23cf4e3e518d4a4f8b5b65e55889b90c258886c6
+```
+
+After execute commands, you will get a string like `d103e6df5f719f9430056f9c23cf4e3e518d4a4f8b5b65e55889b90c258886c6` which called `<container_id>` and we will use it in next step.
+
+### Build kernel package
+
+To build kernel package execute the following commands:
+
+```
+# docker start -ia <container_id>
+# cd /workspace/imx7-linux-4.4
+# apt-get build-dep -aarmhf .
 # dpkg-buildpackage -us -uc -b -aarmhf
 ```
 
-* `<docker_container_id>` comes from the command `docker run`
-* The result should be under `/tmp/kernel/imx7-linux-4.4/../`
+Once build process complete, you can find `.deb` files under `/workspace` directory.
 
----
-## How to update kernel on the device
+## Updating
 
-### 1. Upload kernel packages to the device
+After build the kernel packages, now you can update your device.
+
+Below are instructions to update the kernel packages on `UC-8200`.
+
+### Upload the kernel packages to the device
+
+To upload kernel package to the device execute the following commands:
+
 ```
-# scp <files> <Username of device system>@<IP address of device>:<File path>
+# scp uc8200-kernel*.deb uc8200-modules*.deb moxa@192.168.3.127:/tmp
 ```
 
-Example:
-```
-# scp uc8200-kernel*.deb uc8200-modules*.deb moxa@192.168.3.100:/tmp
-```
+### Install the kernel packages
 
-### 2. Install the packages
+To install kernel package to the device execute the following commands:
 
-Example:
 ```
 # cd /tmp
 # dpkg -i *.deb
 # sync
 ```
 
-### 3. Reboot the device
-```
-# reboot
-```
-
----
-## Products List
-### Product kernel configuration:
-There following are the list of product kernel configuration files. defconfig is placed in the arch/arm/configs folder, dts file is placed in arch/arm/boot/dts folder, its file is placed in its folder.
-
-#### Kernel Type: itb file
-##### UC-8200 series
-* models: UC-8210-T-LX, UC-8210-T-LX-S, UC-8220-T-LX, UC-8220-T-LX-US-S, UC-8220-T-LX-EU-S, UC-8220-T-LX-AP-S
-* defconfig: imx7d_defconfig
-* dts: imx7d-moxa-uc-8210.dts, imx7d-moxa-uc-8220.dts
-* its: imx7d-moxa-uc-8200.its
-
----
-## Appendix
-
-### How to create a customized image?
-To create a customized image, please refer to the following link and see "Steps to create a customized image" section.
-[https://github.com/Moxa-Linux/resize-image](https://github.com/Moxa-Linux/resize-image)
+**NOTE: Remember to reboot the device after install the kernel package!**
