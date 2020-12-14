@@ -1,3 +1,18 @@
+imx7-linux-4.4 (4.4.176+1.1.0) stretch; urgency=medium
+
+  [Added]
+  * Support "Set DTR" request for cellular module based on MDM9230 chipset.
+
+  [Changed]
+  * Backported TPM2.0 driver from linux 4.19.115-cip24-rt9.
+  * Optimized the delay handle method of imx7d mmc bus.
+  * Optimized the initial timing sequence of PCIe host on imx7d.
+
+  [Fixed]
+  * NXP IMX7D_2N09P e10728 (PCIe PLL may fail to lock under cold temperature).
+
+ -- Wes Huang <Wes.Huang@moxa.com>  Sun, 13 Dec 2020 22:44:06 -0500
+
 imx7-linux-4.4 (4.4.176+1.0.11) stretch; urgency=medium
 
   * ARM: dts: imx7d: add clock-frequency to CPU nodes
