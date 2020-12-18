@@ -71,3 +71,15 @@ To install kernel package to the device execute the following commands:
 ```
 
 **NOTE: Remember to reboot the device after install the kernel package!**
+
+## Appendix
+
+### Customize kernel configuration
+
+To configure your own kernel config based on moxa's configuration execute the following commands:
+
+```
+# export ARCH=arm
+# make imx7d_defconfig
+# make menuconfig
+```
