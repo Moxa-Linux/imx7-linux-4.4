@@ -20,6 +20,7 @@
 #include <linux/mfd/syscon/imx7-iomuxc-gpr.h>
 #include <linux/module.h>
 #include <linux/of_gpio.h>
+#include <linux/of_address.h>
 #include <linux/of_device.h>
 #include <linux/pci.h>
 #include <linux/platform_device.h>
@@ -50,7 +51,7 @@ struct imx6_pcie {
 	struct pcie_port	pp;
 	struct regmap		*iomuxc_gpr;
 	enum imx6_pcie_variants variant;
-	void __iomem		*mem_base;
+	void __iomem		*phy_base;
 	struct regmap		*reg_src;
 	struct regulator	*pcie_phy_regulator;
 	int			link_gen;
@@ -94,6 +95,17 @@ struct imx6_pcie {
 #define PHY_RX_OVRD_IN_LO 0x1005
 #define PHY_RX_OVRD_IN_LO_RX_DATA_EN (1 << 5)
 #define PHY_RX_OVRD_IN_LO_RX_PLL_EN (1 << 3)
+
+/* iMX7 PCIe PHY registers */
+#define PCIE_PHY_CMN_REG4		0x14
+#define PCIE_PHY_CMN_REG4_DCC_FB_EN	(0x29)
+
+#define PCIE_PHY_CMN_REG24		0x90
+#define PCIE_PHY_CMN_REG24_RX_EQ	BIT(6)
+#define PCIE_PHY_CMN_REG24_RX_EQ_SEL	BIT(3)
+
+#define PCIE_PHY_CMN_REG26		0x98
+#define PCIE_PHY_CMN_REG26_ATT_MODE	0xBC
 
 static int pcie_phy_poll_ack(void __iomem *dbi_base, int exp_val)
 {
@@ -328,8 +340,8 @@ static int imx6_pcie_deassert_core_reset(struct imx6_pcie *imx6_pcie)
 	int ret;
 
 	if (gpio_is_valid(imx6_pcie->power_on_gpio)) {
-		mdelay(100);
 		gpio_set_value_cansleep(imx6_pcie->power_on_gpio, 1);
+		mdelay(100);
 	}
 
 	ret = clk_prepare_enable(imx6_pcie->pcie);
@@ -367,6 +379,23 @@ static int imx6_pcie_deassert_core_reset(struct imx6_pcie *imx6_pcie)
 		udelay(10);
 		regmap_update_bits(imx6_pcie->reg_src, 0x2c, BIT(6), 0);
 		regmap_update_bits(imx6_pcie->reg_src, 0x2c, BIT(1), 0);
+
+		/* Add the workaround for ERR010728 */
+		if (unlikely(imx6_pcie->phy_base == NULL)) {
+			pr_err("phy base shouldn't be null.\n");
+		} else {
+			/* De-assert DCC_FB_EN by writing data "0x29". */
+			writel(PCIE_PHY_CMN_REG4_DCC_FB_EN,
+			       imx6_pcie->phy_base + PCIE_PHY_CMN_REG4);
+			/* Assert RX_EQS and RX_EQS_SEL */
+			writel(PCIE_PHY_CMN_REG24_RX_EQ_SEL
+				| PCIE_PHY_CMN_REG24_RX_EQ,
+			       imx6_pcie->phy_base + PCIE_PHY_CMN_REG24);
+			/* Assert ATT_MODE by writing data "0xBC". */
+			writel(PCIE_PHY_CMN_REG26_ATT_MODE,
+			       imx6_pcie->phy_base + PCIE_PHY_CMN_REG26);
+		}
+
 		regmap_update_bits(imx6_pcie->reg_src, 0x2c, BIT(2), 0);
 
 		/* wait for phy pll lock firstly. */
@@ -682,6 +711,7 @@ static int __init imx6_pcie_probe(struct platform_device *pdev)
 	struct imx6_pcie *imx6_pcie;
 	struct pcie_port *pp;
 	struct device_node *node = dev->of_node;
+	struct device_node *np;
 	struct resource *dbi_base;
 	int ret;
 
@@ -697,6 +727,14 @@ static int __init imx6_pcie_probe(struct platform_device *pdev)
 	/* Added for PCI abort handling */
 	hook_fault_code(16 + 6, imx6q_pcie_abort_handler, SIGBUS, 0,
 		"imprecise external abort");
+
+	np = of_find_compatible_node(NULL, NULL, "fsl,imx-pcie-phy");
+	if (np != NULL) {
+		imx6_pcie->phy_base = of_iomap(np, 0);
+		WARN_ON(!imx6_pcie->phy_base);
+	} else {
+		imx6_pcie->phy_base = NULL;
+	}
 
 	dbi_base = platform_get_resource(pdev, IORESOURCE_MEM, 0);
 	pp->dbi_base = devm_ioremap_resource(&pdev->dev, dbi_base);
