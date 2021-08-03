@@ -1,3 +1,10 @@
+imx7-linux-4.4 (4.4.176+1.1.1) stretch; urgency=medium
+
+  [Fixed]
+  * Fix CVE-2021-33909
+
+ -- Remus Wu <remusty.wu@moxa.com>  Tue, 03 Aug 2021 16:04:56 +0800
+
 imx7-linux-4.4 (4.4.176+1.1.0) stretch; urgency=medium
 
   [Added]
