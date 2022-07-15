@@ -2,11 +2,12 @@
 
 Below you will find instructions to build and install the imx7-linux-4.4 project.
 
-## Build Instructions Table
+## Version Tags, Branch and Kernel Sourece Table
 
-| Branch / Tags | Build Instructions |
-| - | - |
-| UC-8200_V1.0, UC-8200_V1.1, UC8200_V1.2 <br> 4.4.176-cip31-rt23/stretch/master | Below Instructions (`Latest`) |
+| Tags | Branch | Kernel Sourece |
+| - | - | - |
+| UC-8200_V1.4<br>UC-8200_V1.5 | [4.4.285-cip63-rt36/stretch-imx7d/master](https://github.com/Moxa-Linux/linux-4.4/tree/4.4.285-cip63-rt36/stretch-imx7d/master) | [linux-4.4](https://github.com/Moxa-Linux/linux-4.4/) (`Lastest`) |
+| UC-8200_V1.0<br>UC-8200_V1.1<br>UC-8200_V1.2 | [4.4.176-cip31-rt23/stretch/master](https://github.com/Moxa-Linux/imx7-linux-4.4/tree/4.4.176-cip31-rt23/stretch/master) | [imx7-linux-4.4](https://github.com/Moxa-Linux/imx7-linux-4.4) (*This repository*) (`Outdated`) |
 
 ## Download source
 
@@ -15,6 +16,8 @@ To obtain the imx7-linux-4.4 sources you must clone them as below:
 ```
 git clone https://github.com/Moxa-Linux/imx7-linux-4.4
 ```
+
+> 📘 Refer to https://github.com/Moxa-Linux/linux-4.4.git for newer kernel source and building flow.
 
 ## Dependencies
 
